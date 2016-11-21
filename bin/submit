@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+export SPARK_MAJOR_VERSION=2
+
+class="teg.cfd.omc.KafkaCheck"
+
+appname="kafka-check-assembly-1.0.jar"
+apppath="target/scala-2.11/${appname}"
+
+yarn=false
+
+function  submitaslocal(){
+	class=$1
+	path=$2
+	spark-submit --class $class $path \
+	    --driver-memory 4g \
+	    --executor-memory 2g \
+	    --executor-cores 2 
+}
+
+
+function  submitasyarn(){
+	class=$1
+	path=$2
+	spark-submit --conf spark.es.resource=index/type  \
+	    --class $calss $path \
+	    --master yarn \
+	    --deploy-mode client \
+	    --driver-memory 4g \
+	    --executor-memory 2g \
+	    --executor-cores 2
+}
+
+submitaslocal $class  $apppath

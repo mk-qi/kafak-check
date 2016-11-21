@@ -1,0 +1,7 @@
+#git add  ./bin
+#git add ./src
+#git add project/plugins.sbt
+#git add ./build.sbt
+#git commit 
+sbt  -Dsbt.override.build.repos=true  assembly 
+
